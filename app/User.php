@@ -6,7 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable {
 
-    public function roles() {
+    public function roles()
+    {
         return $this->belongsToMany('App\Role', 'user_role', 'persoon_id', 'rol_id');
     }
     
@@ -30,6 +31,15 @@ class User extends Authenticatable {
             return true;
         }
         return false;
+    }
+
+    public function isAdmin()
+    {
+        foreach ($this->roles()->get() as $role) {
+            if ($role->name == 'Admin') {
+                return true;
+            }
+        }
     }
 
     /**
